@@ -58,7 +58,7 @@ public class DBOperation {
 	public static Boolean addUser(String name, String password) {
 		try {
 			boolean flag = false;
-			Connection connection = DBOperation.getConnection();
+			Connection connection = getConnection();
 			String sqlString = "insert into user(user_name,user_password) value(?,?)";
 			PreparedStatement pst = connection.prepareStatement(sqlString);
 			pst.setString(1, name);
@@ -78,6 +78,28 @@ public class DBOperation {
 			
 		}
 
+		return false;
+	}
+	/**
+	 * 修改密码
+	 * @param name      用户名
+	 * @param password  新密码
+	 * @return          修改成功与否
+	 */
+	public Boolean updateUser(String name, String password) {
+		
+		try {
+			Boolean flag = false;
+			Connection connection = getConnection();
+			String sql = "UPDATE user SET user_password="+password+"WHERE user_name="+name;
+			PreparedStatement pst = connection.prepareStatement(sql);
+			pst.execute();
+			flag = true;
+			return flag;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
