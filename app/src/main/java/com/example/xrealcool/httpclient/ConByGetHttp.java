@@ -17,7 +17,7 @@ public class ConByGetHttp extends Thread {
     MainActivity mainActivity;
     Handler handler;
 
-    public ConByGetHttp(Context context, String url,Handler handler) {
+    public ConByGetHttp(Context context, String url, Handler handler) {
         this.mainActivity = (MainActivity) context;
         this.urlString = url;
         this.handler = handler;
@@ -46,8 +46,8 @@ public class ConByGetHttp extends Thread {
             conn.connect();
             Log.d("123", "连接成功");
             DataInputStream dis = new DataInputStream(conn.getInputStream());
-             String contentInfo= dis.readUTF(dis);
-            Log.d("123","数据："+contentInfo);
+            String contentInfo = dis.readUTF(dis);
+            Log.d("123", "数据：" + contentInfo);
             Message message = new Message();
             message.what = 1;
             message.obj = contentInfo;
