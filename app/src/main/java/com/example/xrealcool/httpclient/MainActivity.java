@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private EditText et_username;
     private Button login;
-    private Button register;
+    private Button btn_register;
     private Handler handler;
     private EditText et_password;
 
@@ -52,20 +52,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         login = findViewById(R.id.btn_login);
         login.setOnClickListener(this);
-        register = findViewById(R.id.create_account);
-        register.setOnClickListener(this);
+        btn_register = findViewById(R.id.btn_register);
+        btn_register.setOnClickListener(this);
 
     }
 
+    /**
+     * 点击监听  响应事件
+     *
+     * @param v 对应控件
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
                 requestToServer(true);
                 break;
-            case R.id.create_account:
+            case R.id.btn_register:
+                Log.d("123456", "注册");
                 requestToServer(false);
+                Log.d("123", "调用方法");
                 break;
+
         }
     }
 
@@ -78,18 +86,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             String name = URLEncoder.encode(et_username.getText().toString(), "utf-8");
             String password = URLEncoder.encode(et_password.getText().toString(), "utf-8");
-            if (islogin) {
-                String info = dataToJSON(name, password, islogin);
-                if (info != null) {
-                    String url = "http://192.168.43.143:7856/Http/servlet/RegisterServlet?info=" + info;
-                    //注意：千万不要把“=”转义了----会报错（net.sf.json.JSONException: Missing value. at character 0 of）
-                     String rurl= url.replace("\"","%22")
-                            .replace("{","%7B").replace("}","%7D").replace("\\","%5C");
-                    Log.d("123", url);
-                    ConByGetHttp conByGetHttp = new ConByGetHttp(MainActivity.this, rurl, handler);
-                    conByGetHttp.start();
-                }
+
+            Log.d("123", "开始转成json");
+            String info = dataToJSON(name, password, islogin);
+            if (info != null) {
+                Log.d("123", "转成json成功");
+                String url = "http://192.168.0.100:7856/Http/servlet/RegisterServlet?info=" + info;
+                //注意：千万不要把“=”转义了----会报错（net.sf.json.JSONException: Missing value. at character 0 of）
+                String rurl = url.replace("\"", "%22")
+                        .replace("{", "%7B").replace("}", "%7D").replace("\\", "%5C");
+                Log.d("123", url);
+                ConByGetHttp conByGetHttp = new ConByGetHttp(MainActivity.this, rurl, handler);
+                conByGetHttp.start();
+                Log.d("123", "开启线程");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -116,6 +127,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return null;
     }
-
-
 }

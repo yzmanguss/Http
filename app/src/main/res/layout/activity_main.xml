@@ -130,10 +130,11 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/create_account"
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="没有账号？创建一个"
+            android:clickable="true"
             android:textSize="20sp" />
     </LinearLayout>
 
